@@ -40,9 +40,24 @@
     // control that shows state info on hover
     var info = L.control();
 
-    info.onAdd = function(map) {
-      this._div = L.DomUtil.create("div", "info");
-      this.update();
-      return this._div;
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create("div", "info");
+        this.update();
+        return this._div;
     };
+
+    info.update = function (props) {
+        this._div.innerHTML =
+            "<h4>SackTotal</h4>" +
+            (props
+                ? "<b>" +
+                props.name +
+                "</b><br />" +
+                props.SackTotal +
+                " people / mi<sup>2</sup>"
+                : "Hover over a state");
+    };
+
+
+    info.addTo(map);
 </script>
