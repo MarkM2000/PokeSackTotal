@@ -31,6 +31,16 @@ h2 {
 #map {
     width: 800px;
     height: 500px;
+    margin: 10px auto;
+    border: 2px solid #d3d3d3;
+}
+
+@media screen and (max-width: 900px) {
+
+    .first-column,
+    .second-column {
+        width: 100%;
+    }
 }
 
 .info {
