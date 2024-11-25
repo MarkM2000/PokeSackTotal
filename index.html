@@ -57,7 +57,7 @@
                 ? "<b>" +
                 props.NAME +
                 "</b><br />" +
-                props.BagTotal +
+                props.Total +
                 " total / sacks<sup>2</sup>"
                 : "Hover over a state");
     };
@@ -83,7 +83,7 @@
             color: "white",
             dashArray: "3",
             fillOpacity: 0.7,
-            fillColor: getColor(feature.properties.BagTotal)
+            fillColor: getColor(feature.properties.Total)
         };
     }
 
@@ -129,7 +129,7 @@
     }).addTo(map);
 
     map.attributionControl.addAttribution(
-        'Bag Total data &copy; <a href="http://census.gov/">US Census Bureau</a>'
+        'Total data &copy; <a href="http://census.gov/">US Census Bureau</a>'
     );
 
     var legend = L.control({ position: "bottomright" });
