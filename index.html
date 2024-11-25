@@ -54,5 +54,225 @@
 <!-- then Simple Statistics -->
 <script src="https://unpkg.com/simple-statistics@7.8.3/dist/simple-statistics.min.js"></script>
 <script>
-    
+    // set global variables for map layer,
+    // mapped attribute
+    let attributeValue = "RENT";
+
+    // Add footer date
+    setDate()
+
+    // set global variables for header, map container, and footer
+    const header = document.querySelector("header");
+    const mapContainer = document.querySelector("#map");
+    const footer = document.querySelector("footer");
+
+    // set map height to fill window
+    mapContainer.style.height =
+        window.innerHeight - header.offsetHeight - footer.offsetHeight + "px";
+
+    // initial Leaflet map options
+    const options = {
+        center: [37.8, -85.8],
+        zoom: 5,
+        zoomSnap: 0.5,
+        zoomControl: false,
+        attributionControl: false,
+    };
+
+    // create Leaflet map and apply options
+    const map = L.map("map", options);
+
+    // fetch data
+    fetch("geojson/BagTotal.geojson")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            // This is the JSON from our response
+            // Draw basic map from data
+            var dataLayer = L.geoJson(data, {
+                style: function (feature) {
+                    return {
+                        color: "#333",
+                        weight: 1,
+                        fillOpacity: 1,
+                        fillColor: "#1f78b4",
+                    };
+                },
+            }).addTo(map);
+            // Make call to update map
+            console.log(dataLayer)
+            drawMap(dataLayer);
+            // if (response.ok) {
+            //   return response.json();
+            // } else {
+            //   throw new Error(`HTTP error! status: ${response.status}`);
+            // }
+            // Return a new fetch call and continue the chain
+            return fetch("data/us_states_20m.geojson")
+        })
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            console.log(data);
+            drawAnotherLayer(data)
+        })
+        // If there is an error, log it to the console
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    // Example of keeping your page fresh
+    function setDate() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.toLocaleString('default', { month: 'long' });
+        const footerText = document.querySelector("footer p");
+        footerText.innerHTML = `${month}, ${year} | New Maps Plus`;
+    }
+
+    // start DrawMap(dataLayer)
+
+    function drawMap(dataLayer) {
+        var breaks = getClassBreaks(dataLayer);
+
+        dataLayer.eachLayer(function (layer) {
+            console.log(layer.feature.properties);
+        });
+
+        dataLayer.eachLayer(function (layer) {
+            var props = layer.feature.properties;
+
+            layer.setStyle({
+                fillColor: getColor(
+                    props[attributeValue], breaks
+                ),
+            });
+
+            var toolTipInfo = `<h3>${props.NAME} County</h3>`
+
+            if (props[attributeValue] < 0) {
+                toolTipInfo += `<p>No data</p>`;
+            } else {
+                toolTipInfo += `<p>$${props[attributeValue]}</p>`;
+            }
+
+            layer.bindTooltip(toolTipInfo, {
+                sticky: true,
+                className: "leaflet-tooltip-own",
+            });
+        });
+
+        drawLegend(breaks);
+    } // end drawMap()
+
+    // start GetClassBreaks(dataLayer) function
+    function getClassBreaks(dataLayer) {
+        // create empty Array for storing values
+        const values = [];
+
+        // loop through all the counties
+        dataLayer.eachLayer(function (layer) {
+            var props = layer.feature.properties;
+            var value = props[attributeValue];
+
+            if (value >= 0) {
+                values.push(value);
+            }
+        });
+
+        // determine similar clusters
+        var clusters = ss.ckmeans(values, 5);
+
+        // create an array of the lowest value within each cluster
+        var breaks = clusters.map(function (cluster) {
+            return [cluster[0], cluster.pop()];
+        });
+
+        return breaks; // return Array of class breaks
+    }
+    // end getClassBreaks function
+
+    // start drawAnotherLayer(data)
+    function drawAnotherLayer(data) {
+        L.geoJson(data, {
+            style: function (feature) {
+                return {
+                    color: "#222",
+                    // Make line weight larger than the county outline
+                    weight: 2,
+                    fillOpacity: 0,
+                    // This property allows us control interactivity of layer
+                    interactive: false,
+                };
+            },
+        }).addTo(map);
+    }
+    // end drawAnotherLayer(data)
+
+    // start getColor
+    function getColor(d, breaks) {
+        if (d <= 0) {
+            return "grey";
+        } else if (d <= breaks[0][1]) {
+            return "#f7fbff";
+        } else if (d <= breaks[1][1]) {
+            return "#c8dcf0";
+        } else if (d <= breaks[2][1]) {
+            return "#73b2d8";
+        } else if (d <= breaks[3][1]) {
+            return "#2979b9";
+        } else if (d <= breaks[4][1]) {
+            return "#08306b";
+        }
+    }
+    // end getColor
+
+    // start drawLegend
+    function drawLegend(breaks) {
+        // create a new Leaflet control object, and position it top left
+        const legend = L.control({ position: "topleft" });
+
+        // when the legend is added to the map
+        legend.onAdd = function () {
+            // create a new HTML <div> element and give it a class list
+            const div = L.DomUtil.create('div',
+                'legend d-flex flex-column px-3 py-2');
+
+            // first append an <h3> tag to the div holding the current attribute
+            // and norm values (i.e., the mapped phenomena)
+            div.innerHTML = `<h3>${attributeValue}</h3>`;
+
+            // for each of our breaks
+            for (let i = 0; i < breaks.length; i++) {
+                // determine the color associated with each break value,
+                // including the lower range value
+                const color = getColor(breaks[i][0], breaks);
+
+                // concatenate a <span> tag styled with the color and the range values
+                // of that class and include a label with the low and a high ends of that class range
+                div.innerHTML +=
+                    `<div class="d-flex flex-row justify-content-start">
+                <span style="background:${color}"></span>
+                <label>$${(breaks[i][0])} &mdash; 
+                $${(breaks[i][1])}</label>
+            </div>`;
+            }
+
+            div.innerHTML +=
+                `<div class="d-flex flex-row justify-content-start">
+                <span style="background:grey"></span>
+                <label>No data</label>
+            </div>`;
+
+            // return the populated div to be added to the map
+            return div;
+        };
+
+        // add the legend to the map
+        legend.addTo(map);
+    }
+
+    map.addControl(L.control.zoom({ position: "topright" }));
 </script>
