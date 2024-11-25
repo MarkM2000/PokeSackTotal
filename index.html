@@ -53,9 +53,9 @@
             "<h4>PokeSackTotal</h4>" +
             (props
                 ? "<b>" +
-                props.name +
+                props.NAME +
                 "</b><br />" +
-                props.SackTotal +
+                props.BagTotal +
                 " total / sacks<sup>2</sup>"
                 : "Hover over a state");
     };
@@ -81,7 +81,7 @@
             color: "white",
             dashArray: "3",
             fillOpacity: 0.7,
-            fillColor: getColor(feature.properties.SackTotal)
+            fillColor: getColor(feature.properties.BagTotal)
         };
     }
 
@@ -127,7 +127,7 @@
     }).addTo(map);
 
     map.attributionControl.addAttribution(
-        'Population data &copy; <a href="http://census.gov/">US Census Bureau</a>'
+        'Bag Total data &copy; <a href="http://census.gov/">US Census Bureau</a>'
     );
 
     var legend = L.control({ position: "bottomright" });
