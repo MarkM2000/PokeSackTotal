@@ -17,8 +17,10 @@
 <body>
     <div id="map"></div>
     <header>
-        <h1>PokeSackTotal Choropleth Map</h1>
+        <h1>SackTotal Choropleth Map</h1>
     </header>
+    <!-- dropdown -->
+    <select id="dropdown"></select>
 </body>
 <!-- Add Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -29,6 +31,8 @@
 <script src="/js/BagTotal.js"></script>
 <script src="/js/SackTotal.js"></script>
 <script src="/js/PokeTotal.js"></script>
+<!-- Dropdown JS -->
+<script src="/js/dropdown.js"></script>
 <script>
     var map = L.map('map', {
         zoomSnap: .1,
