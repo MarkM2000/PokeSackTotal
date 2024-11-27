@@ -66,10 +66,12 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <!-- then Simple Statistics -->
   <script src="https://unpkg.com/simple-statistics@7.8.3/dist/simple-statistics.min.js"></script>
+  <!-- US Stats SRC -->
+  <script src="/src/us-states.js"></script>
   <!-- JS files-->
   <script src="/js/Informant.js"></script>
   <script>
-        var map = L.map('map', {
+     var map = L.map('map', {
         zoomSnap: .1,
         center: [36, -90],
         zoom: 4.5
@@ -91,13 +93,13 @@
 
     info.update = function (props) {
         this._div.innerHTML =
-            "<h4>InformantTotal</h4>" +
+            "<h4>Informant Total</h4>" +
             (props
                 ? "<b>" +
                 props.NAME +
                 "</b><br />" +
                 props.Informant +
-                " total informants"
+                " total sacks"
                 : "Hover over a state");
     };
 
@@ -166,10 +168,6 @@
         style: style,
         onEachFeature: onEachFeature
     }).addTo(map);
-
-    map.attributionControl.addAttribution(
-        'Total data &copy; <a href="http://census.gov/">US Census Bureau</a>'
-    );
 
     var legend = L.control({ position: "bottomright" });
 
