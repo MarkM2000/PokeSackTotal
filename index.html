@@ -91,7 +91,7 @@
 
     info.update = function (props) {
         this._div.innerHTML =
-            "<h4>PokeSackTotal</h4>" +
+            "<h4>InformantTotal</h4>" +
             (props
                 ? "<b>" +
                 props.NAME +
@@ -104,7 +104,7 @@
 
     info.addTo(map);
 
-    // get color depending on PokeSackTotal value
+    // get color depending on Informant value
     function getColor(d) {
         return d > 200
             ? "#800026"
@@ -162,7 +162,7 @@
         });
     }
 
-    geojson = L.geoJson(PokeSackTotal, {
+    geojson = L.geoJson(Informant, {
         style: style,
         onEachFeature: onEachFeature
     }).addTo(map);
