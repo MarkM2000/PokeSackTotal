@@ -15,15 +15,59 @@
 </head>
 
 <body>
-    <div id="map"></div>
-    <header>
-        <h1>BagTotal Choropleth Map</h1>
-    </header>
-    <h2>Information</h2>
-    <p>This map shows the total number of bags in the states listed. Georgia, according to the map, has the most amount of bags out of the states listed on the map.</p>
-    <h2>How they impact the environment</h2>
-    <p>Bags have a detrimental effect on the environment by causing pollution through littering, entanglement, and ingestion by wildlife, decomposing slowly, releasing hazardous chemicals during the process, and requiring a large amount of fossil fuels to produce, which leads to the contamination of soil and waterways with microplastics.</p>
-</body>
+    <div class="container-fluid">
+      <header class="row bg-dark text-white p-2">
+        <div class="col-8">
+          <h1>PokeSackTotal Choropleth Map</h1>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn">Dropdown</button>
+          <div class="dropdown-content">
+            <a href="https://markm2000.github.io/PokeSackTotal/">PokeSackTotal</a>
+            <a href="https://markm2000.github.io/PokeSackTotal/index/BagTotal-index.html">BagTotal</a>
+            <a href="https://markm2000.github.io/PokeSackTotal/index/SackTotal-Index.html">SackTotal</a>
+          </div>
+        </div>
+        <div class="col-4 align-self-center">
+          <p class="d-flex justify-content-end my-auto">
+            <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+              aria-controls="offcanvasExample">
+              Map Info
+            </a>
+          </p>
+        </div>
+      </header>
+  
+      <section class="row">
+        <div class="p-0">
+          <div id="map"></div>
+        </div>
+      </section>
+  
+      <footer class="row bg-dark text-white p-2">
+        <p class="text-center"></p>
+      </footer>
+    </div>
+  
+    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasExample"
+      aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Map Info</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <h3 class="py-2">Information</h3>
+        <p>This map shows the total number of bags in the states listed. Georgia, according to the map, has the most amount of bags out of the states listed on the map.</p>
+        <h3>How they impact the environment</h3>
+        <p>Bags have a detrimental effect on the environment by causing pollution through littering, entanglement, and ingestion by wildlife, decomposing slowly, releasing hazardous chemicals during the process, and requiring a large amount of fossil fuels to produce, which leads to the contamination of soil and waterways with microplastics.</p>
+        <ul class="list-unstyled">
+          <li>Authored by Mark Marji</li>
+          <li>January 16, 2024</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
