@@ -14,7 +14,7 @@ header,
 section,
 footer {
     width: 80%;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
 h1 {
@@ -31,7 +31,7 @@ h2 {
 #map {
     width: 800px;
     height: 500px;
-    margin: 10px auto;
+    margin: 20px auto;
     border: 2px solid #d3d3d3;
 }
 
